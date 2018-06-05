@@ -16,6 +16,7 @@ group :development do
 end
 
 gem 'listen', '>= 3.0.5', '< 3.2'
-group :test do
+group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
+  gem 'rails-controller-testing'
 end
