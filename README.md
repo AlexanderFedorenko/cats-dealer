@@ -1,4 +1,7 @@
 ## Cats Dealer 
+
+[![Travis CI](https://travis-ci.com/AlexanderFedorenko/cats-dealer.svg?branch=master)](https://travis-ci.com/AlexanderFedorenko/cats-dealer)
+
 ### Hi, dude!
 You are going to create simple service that allows finding the best pussycat - best price for customer location.
 
