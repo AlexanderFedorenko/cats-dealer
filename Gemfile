@@ -8,7 +8,7 @@ gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
+gem 'turbolinks', '>= 5.0', '< 5.1'
 gem 'sqlite3'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'rest-client'
@@ -24,4 +24,10 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.7'
   gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'capybara'
+end
+
+group :development, :test do
+  gem 'simplecov', require: false
 end
