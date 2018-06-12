@@ -1,13 +1,16 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Exclude:
     - vendor/**/*
     - config/**/*
     - db/**/*
     - bin/**/*
     - tmp/**/*
+
+Rails:
+  Enabled: true
 
 Metrics/LineLength:
   Max: 95
@@ -22,7 +25,7 @@ Metrics/BlockLength:
 Style/MultilineBlockChain:
   Enabled: false
 
-Style/PredicateName:
+Naming/PredicateName:
   NamePrefix:
     - is_
     - have_
@@ -49,3 +52,6 @@ RSpec/DescribeClass:
 
 RSpec/DescribeMethod:
   Enabled: false
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent_relative_to_receiver
