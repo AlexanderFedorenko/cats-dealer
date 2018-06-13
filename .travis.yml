@@ -5,8 +5,6 @@ sudo: false
 cache: bundler
 install:
   - bundle install --path vendor/bundle
-  - bundle exec rake db:create
-  - bundle exec rake db:migrate
   - bundle exec rake db:test:prepare
 matrix:
   fast_finish: true
