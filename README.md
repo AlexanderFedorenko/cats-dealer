@@ -3,6 +3,9 @@
 [![Travis CI](https://travis-ci.com/AlexanderFedorenko/cats-dealer.svg?branch=master)](https://travis-ci.com/AlexanderFedorenko/cats-dealer)
 [![CodeFactor](https://www.codefactor.io/repository/github/alexanderfedorenko/cats-dealer/badge)](https://www.codefactor.io/repository/github/alexanderfedorenko/cats-dealer)
 
+### Working demo
+[On Heroku](https://cool-cats-dealer.herokuapp.com/)
+
 ### Hi, dude!
 You are going to create simple service that allows finding the best pussycat - best price for customer location.
 
