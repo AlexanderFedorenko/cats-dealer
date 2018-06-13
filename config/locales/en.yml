@@ -30,4 +30,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  layout:
+    title: 'Cats'
+  results:
+    best_price: "Best price for your location"
+    no_results: "Sorry, no cats for your location"
+  form:
+    cat_type_select: "Select cat type"
+    location_select: "Select your location"
+    submit: "Send request"

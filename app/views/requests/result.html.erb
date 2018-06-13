@@ -1,6 +1,6 @@
 <% if @cats_list.size > 0 %>
 <p>
-Best price for your location
+  <%= t('results.best_price') %>
 - <%= @cats_list.sort_by { |list| list[:price] }.first['price'] %>
 </p>
 
@@ -27,6 +27,6 @@ Best price for your location
 </table>
 <% else %>
   <p>
-    Sorry, no cats for your location
+    <%= t('results.no_results') %>
   </p>
 <% end %>
