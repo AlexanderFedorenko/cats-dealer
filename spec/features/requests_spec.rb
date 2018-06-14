@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Requests', type: :feature do
-  let(:api_response) do
-    '[{"name": "Abyssin","price": "500","location": "Lviv",'\
-    '"image": "https://akamaized.net/foto.jpg"}]'
+  let(:cats_unlimited_response) do
+    [{name: 'Abyssin', price: '500',
+      location: 'Lviv', image: 'https://akamaized.net/foto.jpg'}]
   end
 
   describe 'Opening results page' do
     context 'when there are results' do
       it 'shows best price' do
         visit result_request_path(
-                cats_list: JSON.parse(api_response),
+                cats_list: cats_unlimited_response,
                 cat_type: 'Abyssin', location: 'Lviv'
               )
 
@@ -19,18 +19,18 @@ RSpec.describe 'Requests', type: :feature do
 
       it 'shows cats' do
         visit result_request_path(
-                cats_list: JSON.parse(api_response),
+                cats_list: cats_unlimited_response,
                 cat_type: 'Abyssin', location: 'Lviv'
               )
 
-        expect(page.all('tr td')[0]).to have_content('Abyssin')
+        expect(page.all('tr td').first).to have_content('Abyssin')
       end
     end
 
     context 'when there are no results' do
       it 'renders message' do
         visit result_request_path(
-                cats_list: JSON.parse(api_response),
+                cats_list: cats_unlimited_response,
                 cat_type: 'Absent cat', location: 'Unknown city'
               )
 
