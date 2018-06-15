@@ -3,16 +3,23 @@ class CatsUnlimitedService
 
   class << self
     def all
-      api_request_all
+      api_request
     end
 
     private
 
-    def api_request_all
+    def api_request
       response = RestClient.get(API_URL)
-      JSON.parse(response.body).map(&:symbolize_keys)
+      transform_response(response)
     rescue RestClient::ExceptionWithResponse => e
       raise StandardError, e.response
+    end
+
+    def transform_response(response)
+      JSON
+        .parse(response.body)
+        .map(&:symbolize_keys)
+        .map { |cat| cat.transform_keys { |key| key == :name ? :type : key } }
     end
   end
 end

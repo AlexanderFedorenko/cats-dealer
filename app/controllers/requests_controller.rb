@@ -11,7 +11,7 @@ class RequestsController < ApplicationController
 
   def result
     @cats_list = params[:cats_list].select do |list|
-      list['location'] == params[:location] && list['name'] == params[:cat_type]
+      list['location'] == params[:location] && list['type'] == params[:cat_type]
     end
   end
 end

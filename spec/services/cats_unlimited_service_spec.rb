@@ -2,35 +2,47 @@ require 'rails_helper'
 
 RSpec.describe CatsUnlimitedService do
   let!(:stubbed_api_request) do
-    stub_request(:get, 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json')
-      .to_return(status: 200, body: api_response)
+    stub_request(:get, described_class::API_URL).to_return(status: 200, body: api_response)
   end
 
   let(:api_response) do
-    '[{"name": "Abyssin","price": "500","location": "Lviv",'\
-      '"image": "https://akamaized.net/foto.jpg"}]'
+    '[{"name": "Big one","price": "500","location": "Lviv","image": "http://googl/foto.jpg"},'\
+    '{"name": "Pinky","price": "100","location": "Lviv", "image": "http://googl/foto.jpg"},'\
+    '{"name": "Big one","price": "300","location": "Odesa", "image": "http://googl/foto.jpg"}]'
   end
 
-  let(:parsed_api_response) do
-    [{name: 'Abyssin', price: '500',
-      location: 'Lviv', image: 'https://akamaized.net/foto.jpg'}]
+  let(:api_response_parsed) do
+    [
+      {
+        type: 'Big one', price: '500',
+        location: 'Lviv', image: 'http://googl/foto.jpg'
+      },
+      {
+        type: 'Pinky', price: '100',
+        location: 'Lviv', image: 'http://googl/foto.jpg'
+      },
+      {
+        type: 'Big one', price: '300',
+        location: 'Odesa', image: 'http://googl/foto.jpg'
+      }
+    ]
   end
 
   describe '.all' do
-    it 'calls .api_request_all method' do
-      allow(described_class).to receive(:api_request_all)
+    it 'calls .api_request method' do
+      allow(described_class).to receive(:api_request)
 
       described_class.all
 
-      expect(described_class).to have_received(:api_request_all)
+      expect(described_class).to have_received(:api_request)
     end
 
     it 'returns array with cats' do
-      expect(described_class.all).to eq(parsed_api_response)
+      expect(described_class.all).to eq(api_response_parsed)
     end
   end
 
-  describe '.api_request_all' do
+  describe '.api_request' do
     it 'makes an API call' do
       described_class.all
 
@@ -38,12 +50,11 @@ RSpec.describe CatsUnlimitedService do
     end
 
     it 'returns array with cats' do
-      expect(described_class.all).to eq(parsed_api_response)
+      expect(described_class.all).to eq(api_response_parsed)
     end
 
     it 'throws an exception in case of error' do
-      stub_request(:get, 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json')
-        .to_return(status: 503)
+      stub_request(:get, described_class::API_URL).to_return(status: 503)
 
       expect { described_class.all }.to raise_error(StandardError)
     end

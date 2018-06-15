@@ -2,25 +2,29 @@ require 'rails_helper'
 
 RSpec.describe RequestsController, type: :controller do
   let(:cats_unlimited_response) do
-    [{name: 'Abyssin', price: '500',
-      location: 'Lviv', image: 'https://akamaized.net/foto.jpg'}]
+    [
+      {
+        type: 'Big one', price: '500',
+        location: 'Lviv', image: 'http://googl/foto.jpg'
+      }
+    ]
   end
 
   let(:results_route_params) do
-    {cats_list: cats_unlimited_response, cat_type: 'Abyssin', location: 'Lviv'}
+    {cats_list: cats_unlimited_response, cat_type: 'Big one', location: 'Lviv'}
   end
 
   describe 'GET #new' do
-    before do
+    subject(:controller_request) do
       get 'new'
     end
 
     it 'renders template' do
-      expect(response).to render_template(:new)
+      expect(controller_request).to render_template(:new)
     end
 
     it 'responds with correct status' do
-      expect(response).to have_http_status(:ok)
+      expect(controller_request).to have_http_status(:ok)
     end
   end
 
@@ -29,7 +33,7 @@ RSpec.describe RequestsController, type: :controller do
       post 'create', params: request_params
     end
 
-    let(:request_params) { {cats_type: 'Abyssin', user_location: 'Lviv'} }
+    let(:request_params) { {cats_type: 'Big one', user_location: 'Lviv'} }
 
     before do
       allow(CatsUnlimitedService).to receive(:all).and_return(cats_unlimited_response)
@@ -50,20 +54,22 @@ RSpec.describe RequestsController, type: :controller do
   end
 
   describe 'GET #result' do
-    before do
+    subject(:controller_request) do
       get 'result', params: results_route_params
     end
 
     it 'renders template' do
-      expect(response).to render_template(:result)
+      expect(controller_request).to render_template(:result)
     end
 
     it 'responds with correct status' do
-      expect(response).to have_http_status(:ok)
+      expect(controller_request).to have_http_status(:ok)
     end
 
     it 'sets correct results' do
-      expect(assigns(:cats_list).first[:name]).to eq cats_unlimited_response.first[:name]
+      controller_request
+
+      expect(assigns(:cats_list).first[:type]).to eq cats_unlimited_response.first[:type]
     end
   end
 end

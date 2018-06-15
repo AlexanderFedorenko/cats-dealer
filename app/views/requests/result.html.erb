@@ -17,7 +17,7 @@
   <tbody>
   <% @cats_list.each do |cat| %>
       <tr>
-        <td><%= cat['name'] %></td>
+        <td><%= cat['type'] %></td>
         <td><%= cat['price'] %></td>
         <td><%= cat['location'] %></td>
         <td><%= image_tag(cat['image'], width: '150px') %></td>
