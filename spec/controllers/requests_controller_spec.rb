@@ -11,7 +11,7 @@ RSpec.describe RequestsController, type: :controller do
   end
 
   let(:results_route_params) do
-    {cats_list: cats_unlimited_response, cat_type: 'Big one', location: 'Lviv'}
+    {cats_list: cats_unlimited_response}
   end
 
   describe 'GET #new' do
@@ -36,13 +36,14 @@ RSpec.describe RequestsController, type: :controller do
     let(:request_params) { {cats_type: 'Big one', user_location: 'Lviv'} }
 
     before do
-      allow(CatsUnlimitedService).to receive(:all).and_return(cats_unlimited_response)
+      allow(CatsUnlimitedService).to receive(:filtered).and_return(cats_unlimited_response)
     end
 
-    it 'makes call to the CatsUnlimitedService' do
+    it 'makes call to the CatsUnlimitedService filtered method' do
       controller_request
 
-      expect(CatsUnlimitedService).to have_received(:all)
+      expect(CatsUnlimitedService)
+        .to have_received(:filtered).with(type: 'Big one', location: 'Lviv')
     end
 
     it 'redirects to request results page' do
@@ -70,6 +71,12 @@ RSpec.describe RequestsController, type: :controller do
       controller_request
 
       expect(assigns(:cats_list).first[:type]).to eq cats_unlimited_response.first[:type]
+    end
+
+    it 'handles empty result' do
+      get 'result', params: {cat_type: 'Big one', location: 'Lviv'}
+
+      expect(assigns(:cats_list)).to eq nil
     end
   end
 end

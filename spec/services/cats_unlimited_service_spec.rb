@@ -42,6 +42,30 @@ RSpec.describe CatsUnlimitedService do
     end
   end
 
+  describe '.filtered' do
+    let(:api_response_parsed) do
+      [
+        {
+          type: 'Pinky', price: '100',
+          location: 'Lviv', image: 'http://googl/foto.jpg'
+        }
+      ]
+    end
+
+    it 'calls .api_request method' do
+      allow(described_class).to receive(:api_request)
+
+      described_class.all
+
+      expect(described_class).to have_received(:api_request)
+    end
+
+    it 'returns filtered array with cats' do
+      expect(described_class.filtered(type: 'Pinky', location: 'Lviv'))
+        .to eq(api_response_parsed)
+    end
+  end
+
   describe '.api_request' do
     it 'makes an API call' do
       described_class.all

@@ -1,4 +1,4 @@
-<% if @cats_list.size > 0 %>
+<% if @cats_list&.any? %>
 <p>
   <%= t('results.best_price') %>
 - <%= @cats_list.sort_by { |list| list[:price] }.first['price'] %>

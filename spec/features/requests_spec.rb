@@ -13,19 +13,13 @@ RSpec.describe 'Requests', type: :feature do
   describe 'Opening results page' do
     context 'when there are results' do
       it 'shows best price' do
-        visit result_request_path(
-                cats_list: cats_unlimited_response,
-                cat_type: 'Big one', location: 'Lviv'
-              )
+        visit result_request_path(cats_list: cats_unlimited_response)
 
         expect(page).to have_css(:p, text: 'Best price for your location - 500')
       end
 
       it 'shows cats' do
-        visit result_request_path(
-                cats_list: cats_unlimited_response,
-                cat_type: 'Big one', location: 'Lviv'
-              )
+        visit result_request_path(cats_list: cats_unlimited_response)
 
         expect(page.all('tr td').first).to have_content('Big one')
       end
@@ -33,10 +27,7 @@ RSpec.describe 'Requests', type: :feature do
 
     context 'when there are no results' do
       it 'renders message' do
-        visit result_request_path(
-                cats_list: cats_unlimited_response,
-                cat_type: 'Absent cat', location: 'Unknown city'
-              )
+        visit result_request_path
 
         expect(page).to have_content 'Sorry, no cats for your location'
       end
