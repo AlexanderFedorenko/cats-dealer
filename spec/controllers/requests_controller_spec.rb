@@ -10,8 +10,17 @@ RSpec.describe RequestsController, type: :controller do
     ]
   end
 
+  let(:happy_cats_response) do
+    [
+      {
+        type: 'Big one', price: '100500',
+        location: 'Lviv', image: 'http://googl/foto.jpg'
+      }
+    ]
+  end
+
   let(:results_route_params) do
-    {cats_list: cats_unlimited_response}
+    {cats_list: cats_unlimited_response.concat(happy_cats_response)}
   end
 
   describe 'GET #new' do
@@ -37,12 +46,20 @@ RSpec.describe RequestsController, type: :controller do
 
     before do
       allow(CatsUnlimitedService).to receive(:filtered).and_return(cats_unlimited_response)
+      allow(HappyCatsService).to receive(:filtered).and_return(happy_cats_response)
     end
 
     it 'makes call to the CatsUnlimitedService filtered method' do
       controller_request
 
       expect(CatsUnlimitedService)
+        .to have_received(:filtered).with(type: 'Big one', location: 'Lviv')
+    end
+
+    it 'makes call to the HappyCatsService filtered method' do
+      controller_request
+
+      expect(HappyCatsService)
         .to have_received(:filtered).with(type: 'Big one', location: 'Lviv')
     end
 
@@ -67,10 +84,16 @@ RSpec.describe RequestsController, type: :controller do
       expect(controller_request).to have_http_status(:ok)
     end
 
-    it 'sets correct results' do
+    it 'sets combined result of first service' do
       controller_request
 
       expect(assigns(:cats_list).first[:type]).to eq cats_unlimited_response.first[:type]
+    end
+
+    it 'sets combined result of second service' do
+      controller_request
+
+      expect(assigns(:cats_list).second[:type]).to eq happy_cats_response.first[:type]
     end
 
     it 'handles empty result' do

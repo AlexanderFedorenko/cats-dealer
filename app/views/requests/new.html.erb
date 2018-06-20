@@ -3,11 +3,11 @@
     <%= form_tag(request_path, method: 'post', class: 'form-horizontal center') do %>
         <p>
           <%= t('form.cat_type_select') %>:<br/>
-          <%= select_tag('cats_type', options_for_select(%w(Bengal Abyssin Persian))) %>
+          <%= select_tag('cats_type', options_for_select(@cat_types)) %>
         </p>
         <p>
           <%= t('form.location_select') %>:<br/>
-          <%= select_tag('user_location', options_for_select(%w(Lviv Kiev Odessa))) %>
+          <%= select_tag('user_location', options_for_select(@user_locations)) %>
         </p>
         <div><%= submit_tag t('form.submit'), class: 'btn btn-default' %></div>
     <% end %>
