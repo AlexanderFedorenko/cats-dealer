@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe HappyCatsService do
   let(:parsed_api_response) do
     [
-      {
+      CatsPresenter.new(
         type: 'American Curl', price: '650',
         location: 'Odessa', image: 'https://olxua-ring07.akamaized.net/images_slandocomua/113528769_3_1000x700_amerikanskie-kerly-koshki-s-chelovecheskim-litsom-koshka-kompanon-koti_rev022.jpg'
-      }
+      )
     ]
   end
 
@@ -19,9 +19,18 @@ RSpec.describe HappyCatsService do
       expect(described_class).to have_received(:api_request)
     end
 
-    it 'returns filtered array with cats', vcr: {cassette_name: 'happy_cats_with_many_cats'} do
-      expect(described_class.filtered(type: 'American Curl', location: 'Odessa'))
-        .to eq(parsed_api_response)
+    it 'returns filtered with first cat', vcr: {cassette_name: 'happy_cats_with_many_cats'} do
+      expect(described_class
+               .filtered(type: 'American Curl', location: 'Odessa')
+               .first['cat'][:type])
+        .to eq 'American Curl'
+    end
+
+    it 'returns filtered with second cat', vcr: {cassette_name: 'happy_cats_with_many_cats'} do
+      expect(described_class
+               .filtered(type: 'American Curl', location: 'Odessa')
+               .second['cat'][:type])
+        .to eq 'Bengal'
     end
   end
 
@@ -45,10 +54,10 @@ RSpec.describe HappyCatsService do
 
     context 'when there is one cat', vcr: {cassette_name: 'happy_cats_with_one_cat'} do
       it { is_expected.to be_a(Array) }
-      it { expect(call.first).to be_a(Hash) }
+      it { expect(call.first).to be_a(CatsPresenter) }
 
       it 'returns array with cats' do
-        expect(described_class.all).to eq(parsed_api_response)
+        expect(call.first).to have_attributes(type: 'American Curl', price: '650')
       end
     end
 
@@ -67,10 +76,14 @@ RSpec.describe HappyCatsService do
       end
 
       it { is_expected.to be_a(Array) }
-      it { expect(call.first).to be_a(Hash) }
+      it { expect(call.first).to be_a(CatsPresenter) }
 
-      it 'returns array with cats' do
-        expect(described_class.all).to eq(parsed_api_response)
+      it 'returns array with first cat' do
+        expect(call.first).to have_attributes(type: 'American Curl', price: '650')
+      end
+
+      it 'returns array with second cat' do
+        expect(call.second).to have_attributes(type: 'Bengal', price: '800')
       end
     end
 

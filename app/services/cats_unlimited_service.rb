@@ -10,8 +10,9 @@ class CatsUnlimitedService
       result = api_request
 
       result.select do |cat|
-        cat[:type] == params[:type] && cat[:location] == params[:location]
+        cat.type == params[:type] && cat.location == params[:location]
       end
+      result.map(&:instance_values)
     end
 
     private
@@ -27,7 +28,9 @@ class CatsUnlimitedService
       JSON
         .parse(response.body)
         .map(&:symbolize_keys)
-        .map { |cat| cat.transform_keys { |key| key == :name ? :type : key } }
+        .map do |cat|
+          CatsPresenter.new(cat.transform_keys { |key| key == :name ? :type : key })
+        end
     end
   end
 end

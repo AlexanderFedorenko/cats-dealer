@@ -3,10 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Requests', type: :feature do
   let(:cats_unlimited_response) do
     [
-      {
-        type: 'Big one', price: '500',
-        location: 'Lviv', image: 'http://googl/foto.jpg'
-      }
+      CatsPresenter.new(type: 'Big one', price: '500',
+                        location: 'Lviv', image: 'http://googl/foto.jpg').instance_values
     ]
   end
 

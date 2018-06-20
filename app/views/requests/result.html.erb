@@ -1,7 +1,7 @@
 <% if @cats_list&.any? %>
 <p>
   <%= t('results.best_price') %>
-- <%= @cats_list.sort_by { |list| list[:price] }.first['price'] %>
+- <%= @cats_list.sort_by { |list| list[:cat][:price] }.first[:cat]['price'] %>
 </p>
 
 <table class=" table table-striped">
@@ -16,11 +16,12 @@
 
   <tbody>
   <% @cats_list.each do |cat| %>
+      <%- cat = CatsPresenter.new(cat[:cat]) %>
       <tr>
-        <td><%= cat['type'] %></td>
-        <td><%= cat['price'] %></td>
-        <td><%= cat['location'] %></td>
-        <td><%= image_tag(cat['image'], width: '150px') %></td>
+        <td><%= cat.type %></td>
+        <td><%= cat.price %></td>
+        <td><%= cat.location %></td>
+        <td><%= image_tag(cat.image, width: '150px') %></td>
       </tr>
   <% end %>
   </tbody>

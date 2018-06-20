@@ -24,11 +24,13 @@ RSpec.describe CatsUnlimitedService do
     end
 
     it 'returns array with cats' do
-      expect(described_class.all).to eq(api_response_parsed)
+      expect(described_class.all.first).to have_attributes(type: 'Abyssin', price: 500)
     end
   end
 
   describe '.filtered', vcr: {cassette_name: 'cats_unlimited_with_many_cats'} do
+    subject(:call) { described_class.filtered }
+
     let(:api_response_parsed) do
       [
         {
@@ -50,9 +52,18 @@ RSpec.describe CatsUnlimitedService do
       expect(described_class).to have_received(:api_request)
     end
 
-    it 'returns filtered array with cats' do
-      expect(described_class.filtered(type: 'Abyssin', location: 'Lviv'))
-        .to eq(api_response_parsed)
+    it 'returns filtered array with first cat' do
+      expect(described_class
+               .filtered(type: 'American Curl', location: 'Odessa')
+               .first['cat'][:type])
+        .to eq 'Abyssin'
+    end
+
+    it 'returns filtered array with second cat' do
+      expect(described_class
+               .filtered(type: 'American Curl', location: 'Odessa')
+               .second['cat'][:type])
+        .to eq 'Abyssin'
     end
   end
 end

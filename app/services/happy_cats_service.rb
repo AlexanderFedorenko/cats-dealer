@@ -10,8 +10,10 @@ class HappyCatsService
       result = api_request
 
       result.select do |cat|
-        cat[:type] == params[:type] && cat[:location] == params[:location]
+        cat.type == params[:type] && cat.location == params[:location]
       end
+
+      result.map(&:instance_values)
     end
 
     private
@@ -28,12 +30,12 @@ class HappyCatsService
       cats = cats.is_a?(Array) ? cats : [cats]
 
       cats.compact.map do |cat|
-        {
+        CatsPresenter.new(
           type: cat['title'],
           price: cat['cost'],
           location: cat['location'],
           image: cat['img']
-        }
+        )
       end
     end
   end
