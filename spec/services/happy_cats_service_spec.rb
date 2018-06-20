@@ -1,35 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe HappyCatsService do
-  before do
-    stub_request(:get, 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/xml')
-      .to_return(status: 200, body: api_response)
-  end
-
-  let(:api_response) do
-    '<?xml version="1.0" encoding="UTF-8"UTF-8?><cats>'\
-    '<cat><title>American Curl</title><cost>650</cost><location>Odessa</location>'\
-    '<img>https://akamaized.net/foto.jpg</img></cat></cats>'
-  end
-
   let(:parsed_api_response) do
     [
       {
         type: 'American Curl', price: '650',
-        location: 'Odessa', image: 'https://akamaized.net/foto.jpg'
+        location: 'Odessa', image: 'https://olxua-ring07.akamaized.net/images_slandocomua/113528769_3_1000x700_amerikanskie-kerly-koshki-s-chelovecheskim-litsom-koshka-kompanon-koti_rev022.jpg'
       }
     ]
   end
 
   describe '.filtered' do
-    let(:api_response) do
-      '<?xml version="1.0" encoding="UTF-8"?><cats>'\
-        '<cat><title>American Curl</title><cost>650</cost><location>Odessa</location>'\
-        '<img>https://akamaized.net/foto.jpg</img></cat>'\
-        '<cat><title>American Curl 2</title><cost>650</cost><location>Odessa</location>'\
-        '<img>https://akamaized.net/foto.jpg</img></cat></cats>'
-    end
-
     it 'calls .api_request method' do
       allow(described_class).to receive(:api_request)
 
@@ -38,7 +19,7 @@ RSpec.describe HappyCatsService do
       expect(described_class).to have_received(:api_request)
     end
 
-    it 'returns filtered array with cats' do
+    it 'returns filtered array with cats', vcr: {cassette_name: 'happy_cats_with_many_cats'} do
       expect(described_class.filtered(type: 'American Curl', location: 'Odessa'))
         .to eq(parsed_api_response)
     end
@@ -62,7 +43,7 @@ RSpec.describe HappyCatsService do
       expect { described_class.all }.to raise_error(StandardError)
     end
 
-    context 'when there are one cat in the result' do
+    context 'when there is one cat', vcr: {cassette_name: 'happy_cats_with_one_cat'} do
       it { is_expected.to be_a(Array) }
       it { expect(call.first).to be_a(Hash) }
 
@@ -71,24 +52,16 @@ RSpec.describe HappyCatsService do
       end
     end
 
-    context 'when there are two cats in the result' do
-      let(:api_response) do
-        '<?xml version="1.0" encoding="UTF-8"?><cats>'\
-        '<cat><title>American Curl 1</title><cost>650</cost><location>Odessa</location>'\
-        '<img>https://akamaized.net/foto.jpg</img></cat>'\
-        '<cat><title>American Curl 2</title><cost>650</cost><location>Odessa</location>'\
-        '<img>https://akamaized.net/foto.jpg</img></cat></cats>'
-      end
-
+    context 'when there are many cats', vcr: {cassette_name: 'happy_cats_with_many_cats'} do
       let(:parsed_api_response) do
         [
           {
-            type: 'American Curl 1', price: '650',
-            location: 'Odessa', image: 'https://akamaized.net/foto.jpg'
+            type: 'American Curl', price: '650',
+            location: 'Odessa', image: 'https://olxua-ring07.akamaized.net/images_slandocomua/113528769_3_1000x700_amerikanskie-kerly-koshki-s-chelovecheskim-litsom-koshka-kompanon-koti_rev022.jpg'
           },
           {
-            type: 'American Curl 2', price: '650',
-            location: 'Odessa', image: 'https://akamaized.net/foto.jpg'
+            type: 'Bengal', price: '800',
+            location: 'Odessa', image: 'https://olxua-ring01.akamaized.net/images_slandocomua/351717184_8_1000x700_bengalskie-kotyata-_rev029.jpg'
           }
         ]
       end
@@ -101,11 +74,7 @@ RSpec.describe HappyCatsService do
       end
     end
 
-    context 'when there are no cats in the result' do
-      let(:api_response) do
-        '<?xml version="1.0" encoding="UTF-8"UTF-8?><cats></cats>'
-      end
-
+    context 'when there are no cats', vcr: {cassette_name: 'happy_cats_with_no_cats'} do
       it 'return an empty array' do
         expect(described_class.all).to eq([])
       end

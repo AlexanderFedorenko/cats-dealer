@@ -17,6 +17,7 @@ RSpec.configure do |config|
   require 'webmock/rspec'
   require 'capybara/rspec'
   require 'simplecov'
+  require 'support/configuration/vcr_setup'
   SimpleCov.start
 
   # rspec-expectations config goes here. You can use an alternate

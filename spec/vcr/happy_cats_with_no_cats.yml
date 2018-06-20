@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/xml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.5.1p57
+      Host:
+      - nh7b1g9g23.execute-api.us-west-2.amazonaws.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2131'
+      Connection:
+      - keep-alive
+      Date:
+      - Wed, 20 Jun 2018 07:54:18 GMT
+      X-Amzn-Requestid:
+      - 228d231b-745f-11e8-9a96-4f22db5ee48d
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Amz-Apigw-Id:
+      - IxY2pGiCvHcF-OA=
+      X-Amzn-Trace-Id:
+      - Root=1-5b2a082a-74d700b0bd807858b1be7d90
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 c35525724b74ec2ec80741ffbf1ff218.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - f6oT7IoNeQLALisRxP8YEyt0acLnWsekI16OOeSHRR2--TAzdH-HCA==
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><cats></cats>
+    http_version:
+  recorded_at: Wed, 20 Jun 2018 07:54:19 GMT
+recorded_with: VCR 4.0.0

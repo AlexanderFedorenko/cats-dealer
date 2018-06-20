@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.5.1p57
+      Host:
+      - nh7b1g9g23.execute-api.us-west-2.amazonaws.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2018'
+      Connection:
+      - keep-alive
+      Date:
+      - Wed, 20 Jun 2018 09:04:02 GMT
+      X-Amzn-Requestid:
+      - e0a7bce0-7468-11e8-a895-e13693ebc7b2
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Amz-Apigw-Id:
+      - IxjEdF9AvHcFmMg=
+      X-Amzn-Trace-Id:
+      - Root=1-5b2a1882-2b8ac3c3f20b0693b092eda2
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 f9efc23cea6c58604ef3f56c3631925f.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - MEVC2HXzHMB-GstACUOYY47R7UtMT3wMBnGn9lry0PbYQrEeP5mXeQ==
+    body:
+      encoding: UTF-8
+      string: '[{"name":"Abyssin","price":500,"location":"Lviv","image":"https://olxua-ring02.akamaized.net/images_slandocomua/476948786_2_1000x700_abissenysh-chempion-fotografii.jpg"}]'
+    http_version:
+  recorded_at: Wed, 20 Jun 2018 09:04:03 GMT
+recorded_with: VCR 4.0.0
