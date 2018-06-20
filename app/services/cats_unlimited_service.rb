@@ -1,20 +1,7 @@
-class CatsUnlimitedService
+class CatsUnlimitedService < ShopService
   API_URL = 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json'.freeze
 
   class << self
-    def all
-      api_request
-    end
-
-    def filtered(params)
-      result = api_request
-
-      result.select do |cat|
-        cat.type == params[:type] && cat.location == params[:location]
-      end
-      result.map(&:instance_values)
-    end
-
     private
 
     def api_request
